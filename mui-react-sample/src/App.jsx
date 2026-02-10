@@ -8,7 +8,11 @@ function App() {
   return (
     <>
       <Button variant="contained" onClick={() => setOpen(true)}>
-        Open Login
+         Login page
+      </Button>
+
+      <Button variant="contained" onClick={() => setOpen(true)}>
+         create new Account
       </Button>
 
       <LoginDialog open={open} onClose={() => setOpen(false)} />
