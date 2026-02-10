@@ -1,22 +1,25 @@
 import { useState } from "react";
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import LoginDialog from "./components/LoginDialog";
 
 function App() {
   const [open, setOpen] = useState(false);
 
   return (
-    <>
+    <Box
+      sx={{display: "flex",gap: 2, justifyContent: "center",mt: 5,              
+      }}
+    >
       <Button variant="contained" onClick={() => setOpen(true)}>
-         Login page
+        Login Page
       </Button>
 
-      <Button variant="contained" onClick={() => setOpen(true)}>
-         create new Account
+      <Button variant="outlined" onClick={() => setOpen(true)}>
+        Create New Account
       </Button>
 
       <LoginDialog open={open} onClose={() => setOpen(false)} />
-    </>
+    </Box>
   );
 }
 
