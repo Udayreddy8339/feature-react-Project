@@ -3,7 +3,7 @@ name: Deploy React App to S3 and CloudFront
 on:
   push:
     branches:
-      - feature/reactproject
+      - feature/reactproject  
 
 jobs:
   deploy:
@@ -19,14 +19,12 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: |
-          cd mui-react-sample
-          npm install
+        working-directory: mui-react-sample
+        run: npm install
 
       - name: Build React app
-        run: |
-          cd mui-react-sample
-          npm run build
+        working-directory: mui-react-sample
+        run: npm run build
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
