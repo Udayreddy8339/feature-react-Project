@@ -1,0 +1,19 @@
+import { useState } from "react";
+import { Button } from "@mui/material";
+import LoginDialog from "./components/LoginDialog";
+
+function App() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button variant="contained" onClick={() => setOpen(true)}>
+        Open Login
+      </Button>
+
+      <LoginDialog open={open} onClose={() => setOpen(false)} />
+    </>
+  );
+}
+
+export default App;
