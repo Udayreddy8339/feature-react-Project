@@ -4,10 +4,16 @@ on:
   push:
     branches:
       - feature/reactproject  
+      - main
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
-  deploy:
+  deploy-dev:
     runs-on: ubuntu-latest
+    environment: Dev
 
     steps:
       - name: Checkout code
@@ -26,12 +32,11 @@ jobs:
         working-directory: mui-react-sample
         run: npm run build
 
-      - name: Configure AWS credentials
+      - name: Configure AWS credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: arn:aws:iam::774515140395:user/Developer
+          aws-region: ap-south-1
 
       - name: Upload build to S3
         run: |
@@ -40,11 +45,12 @@ jobs:
       - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \
-            --distribution-id ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
             --paths "/*"
-  preprod:
+  deploy-test:
     runs-on: ubuntu-latest
-    needs: deploy
+    environment: test
+    needs: deploy-dev
 
     steps:
       - name: Checkout code
