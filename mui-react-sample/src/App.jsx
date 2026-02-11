@@ -8,7 +8,7 @@ function App() {
 
   // 🔥 Lambda API Call
   useEffect(() => {
-    fetch("https://lk8phf4iog.execute-api.ap-south-1.amazonaws.com/hello")
+    fetch("https://lk8phf4iog.execute-api.ap-south-1.amazonaws.com/dev")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
