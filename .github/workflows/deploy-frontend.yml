@@ -35,7 +35,7 @@ jobs:
       - name: Configure AWS credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::774515140395:user/Developer
+          role-to-assume: arn:aws:iam::774515140395:role/github-oidc-role
           aws-region: ap-south-1
 
       - name: Upload build to S3
