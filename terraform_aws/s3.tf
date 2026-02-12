@@ -2,7 +2,7 @@ resource "aws_s3_bucket" "frontend" {
   bucket = var.bucket_name
 }
 
-resource "aws_s3_bucket_public_access_block" "frontend" {
+resource "aws_s3_bucket_public_access_block" "Access" {
   bucket = aws_s3_bucket.frontend.id
 
   block_public_acls       = true
