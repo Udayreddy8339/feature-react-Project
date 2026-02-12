@@ -15,6 +15,8 @@ jobs:
   deploy-dev:
     runs-on: ubuntu-latest
     environment: dev
+    env:
+      TF_VAR_bucket_name: ${{ vars.S3_BUCKET_NAME }}
 
     steps:
 
