@@ -1,9 +1,9 @@
-name: Deploy React App to S3 and CloudFront
+name: Deploy React App with Terraform
 
 on:
   push:
     branches:
-      - feature/reactproject  
+      - feature/reactproject
       - main
 
 permissions:
@@ -11,11 +11,13 @@ permissions:
   contents: read
 
 jobs:
-  deploy-dev:
+
+  deploy:
     runs-on: ubuntu-latest
-    environment: Dev
+    environment: dev
 
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -32,11 +34,27 @@ jobs:
         working-directory: mui-react-sample
         run: npm run build
 
-      - name: Configure AWS credentials using OIDC
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::774515140395:role/github-oidc-role
           aws-region: ap-south-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+
+      - name: Terraform Init
+        working-directory: terraform_aws
+        run: terraform init
+
+      - name: Terraform Plan
+        working-directory: terraform_aws
+        run: terraform plan
+
+      - name: Terraform Apply
+        working-directory: terraform_aws
+        run: terraform apply -auto-approve
 
       - name: Upload build to S3
         run: |
