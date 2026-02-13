@@ -44,6 +44,7 @@ jobs:
         run: |
           aws lambda invoke \
             --function-name react-project-lambda \
+            --cli-binary-format raw-in-base64-out \
             --payload '{"description":"Deploy React App","requested_by":"GitHub Actions","branch":"${{ github.ref_name }}"}' \
             response.json
 
