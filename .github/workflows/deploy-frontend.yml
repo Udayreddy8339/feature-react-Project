@@ -40,6 +40,14 @@ jobs:
           role-to-assume: arn:aws:iam::774515140395:role/github-oidc-role
           aws-region: ap-south-1
 
+      - name: Create Change Record
+        run: |
+          aws lambda invoke \
+            --function-name react-project-lambda \
+            --payload '{"description":"Deploy React App","requested_by":"GitHub Actions","branch":"${{ github.ref_name }}"}' \
+            response.json
+
+
       - name: Upload build to S3
         run: |
           aws s3 sync mui-react-sample/dist s3://${{ vars.S3_BUCKET_NAME }} --delete
