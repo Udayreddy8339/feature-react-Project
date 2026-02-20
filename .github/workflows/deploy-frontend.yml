@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - feature/reactproject
-      - main
 
 permissions:
   id-token: write
@@ -40,15 +39,6 @@ jobs:
           role-to-assume: arn:aws:iam::774515140395:role/github-oidc-role
           aws-region: ap-south-1
 
-      - name: Create Change Record
-        run: |
-          aws lambda invoke \
-            --function-name react-project-lambda \
-            --cli-binary-format raw-in-base64-out \
-            --payload '{"description":"Deploy React App","requested_by":"GitHub Actions","branch":"${{ github.ref_name }}"}' \
-            response.json
-
-
       - name: Upload build to S3
         run: |
           aws s3 sync mui-react-sample/dist s3://${{ vars.S3_BUCKET_NAME }} --delete
@@ -58,24 +48,11 @@ jobs:
           aws cloudfront create-invalidation \
             --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
             --paths "/*"
-  deploy-test:
-    runs-on: ubuntu-latest
-    environment: test
-    needs: deploy-dev
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Install dependencies
-        working-directory: mui-react-sample
-        run: npm install
-
-      - name: Build React app
-        working-directory: mui-react-sample
-        run: npm run build
+      - name: Trigger Terraform Repo
+        run: |
+          curl -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ vars.TERRAFORM_REPO_TOKEN }}" \
+          https://api.github.com/repos/https://github.com/Udayreddy8339/Terraform_Project/dispatches \
+          -d '{"event_type":"react-updated"}'
