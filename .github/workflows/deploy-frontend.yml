@@ -51,7 +51,7 @@ jobs:
 
       - name: Trigger Terraform Repo
         run: |
-          curl -X POST \
+          curl -i -X POST \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${{ vars.TERRAFORM_REPO_TOKEN }}" \
           https://api.github.com/repos/https://github.com/Udayreddy8339/Terraform_Project/dispatches \
