@@ -56,3 +56,8 @@ jobs:
           -H "Authorization: Bearer ${{ vars.TERRAFORM_REPO_TOKEN }}" \
           https://api.github.com/repos/https://github.com/Udayreddy8339/Terraform_Project/dispatches \
           -d '{"event_type":"react-updated"}'
+      - name: Debug Token Access
+        run: |
+          curl -i \
+          -H "Authorization: Bearer ${{ secrets.TERRAFORM_REPO_TOKEN }}" \
+          https://api.github.com/user
