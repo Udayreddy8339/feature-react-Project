@@ -49,16 +49,16 @@ jobs:
             --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
             --paths "/*"
 
-     - name: Trigger Terraform Repo
-       run: |
-         curl -i -X POST \
-         -H "Accept: application/vnd.github+json" \
-         -H "Authorization: Bearer ${{ secrets.TERRAFORM_REPO_TOKEN }}" \
-         https://api.github.com/repos/Udayreddy8339/Terraform_Project/dispatches \
-         -d '{"event_type":"react-updated"}'
+      - name: Trigger Terraform Repo
+        run: |
+          curl -i -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ secrets.TERRAFORM_REPO_TOKEN }}" \
+          https://api.github.com/repos/Udayreddy8339/Terraform_Project/dispatches \
+          -d '{"event_type":"react-updated"}'
 
-     - name: Debug Token Access
-       run: |
-         curl -i \
-         -H "Authorization: Bearer ${{ secrets.TERRAFORM_REPO_TOKEN }}" \
-         https://api.github.com/user
+      - name: Debug Token Access
+        run: |
+          curl -i \
+          -H "Authorization: Bearer ${{ secrets.TERRAFORM_REPO_TOKEN }}" \
+          https://api.github.com/user
